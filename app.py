@@ -23,21 +23,16 @@ def download_nltk():
 
 download_nltk()
 
-# ── API Key ────────────────────────────────────────────────────────
-def get_api_key():
-    try:
-        return st.secrets["GROQ_API_KEY"]
-    except Exception:
-        load_dotenv()
-        key = os.getenv("GROQ_API_KEY", "")
-        if not key:
-            st.error("No se encontró GROQ_API_KEY. Agrégala en .env o en Streamlit Secrets.")
-            st.stop()
-        return key
 
-        
+# ── API Key ────────────────────────────────────────────────────────
+load_dotenv()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+
 @st.cache_resource
 def get_client():
+    if not GROQ_API_KEY:
+        st.error("No se encontró GROQ_API_KEY. Agrégala en Streamlit Secrets.")
+        st.stop()
     return OpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
 
 # ── NLP ────────────────────────────────────────────────────────────
