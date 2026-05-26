@@ -35,9 +35,10 @@ def get_api_key():
             st.stop()
         return key
 
+        
 @st.cache_resource
 def get_client():
-    return OpenAI(api_key=get_api_key(), base_url="https://api.groq.com/openai/v1")
+    return OpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
 
 # ── NLP ────────────────────────────────────────────────────────────
 STOP_ES = set(stopwords.words("spanish")) | {
